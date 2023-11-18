@@ -1,8 +1,8 @@
 #COMMAND: earthly -P --output --no-cache +parallel
 #Parallel working
-#VERSION --wait-block --no-use-registry-for-with-docker 0.6
+#VERSION --no-use-registry-for-with-docker 0.7
 #Parallel not working
-VERSION 0.7
+VERSION --use-visited-upfront-hash-collection 0.7
 
 FROM earthly/dind:alpine
 
@@ -18,7 +18,7 @@ test-executor:
     ARG ID
 
     WITH DOCKER --pull hello-world
-        RUN mkdir TestResults && echo hello > ./TestResults/dummy_${PROJECT}.txt
+        RUN sleep 5 && mkdir TestResults && echo hello > ./TestResults/dummy_${PROJECT}.txt
     END
    
     SAVE ARTIFACT ./TestResults TestResults
